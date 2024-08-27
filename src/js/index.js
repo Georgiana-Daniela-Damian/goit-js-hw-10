@@ -1,26 +1,61 @@
+import SlimSelect from 'slim-select';
 import Notiflix from 'notiflix';
-import axios from 'axios';
+import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 
-const api_key = '';
-axios.defaults.headers.common['x-api-key'] = api_key;
-const url = 'https://api.thecatapi.com/v1';
+const selectCat = document.querySelector('.breed-select');
+const loading = document.querySelector('.loader');
+const catInfo = document.querySelector('.cat-info');
 
-export function fetchBreeds() {
-  return axios
-    .get(`${url}/breeds`)
-    .then(response => response.data)
+loading.style.display = 'none';
+catInfo.style.display = 'none';
+
+const select = () => {
+  loading.style.display = 'block';
+  fetchBreeds()
+    .then(breeds => {
+      const options = breeds.map(breed => ({
+        text: breed.name,
+        value: breed.id,
+      }));
+      new SlimSelect({
+        select: '#breed-select',
+        data: options,
+      });
+    })
     .catch(error => {
-      Notiflix.Notify.failure('Action failed');
-      console.error('Action failed', error);
+      Notiflix.Notify.failure('Action Failed');
+      console.error('Action Failed', error);
+    })
+    .finally(() => {
+      loading.style.display = 'none';
     });
-}
+};
 
-export function fetchCatByBreed(breedId) {
-  return axios
-    .get(`${url}/images/search?breed_ids=${breedId}`)
-    .then(response => response.data)
+const showCats = breedId => {
+  loading.style.display = 'block';
+  Promise.all([fetchBreeds(), fetchCatByBreed(breedId)])
+    .then(([breeds, catData]) => {
+      const selectedBreed = breeds.find(breed => breed.id === breedId);
+      const catImage = catData[0].url;
+      catInfo.innerHTML = `
+        <h2>${selectedBreed.name}</h2>
+        <p><strong>Description:</strong> ${selectedBreed.description}</p>
+        <img src="${catImage}" alt="Cat" />
+      `;
+      catInfo.style.display = 'block';
+    })
     .catch(error => {
-      Notiflix.Notify.failure('Action failed');
-      console.error('Action failed', error);
+      Notiflix.Notify.failure('Action Failed');
+      console.error('Action Failed', error);
+    })
+    .finally(() => {
+      loading.style.display = 'none';
     });
-}
+};
+
+selectCat.addEventListener('change', event => {
+  const selectedBreedId = event.target.value;
+  showCats(selectedBreedId);
+});
+
+select();
