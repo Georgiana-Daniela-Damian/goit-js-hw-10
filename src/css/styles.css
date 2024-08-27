@@ -12,6 +12,7 @@ body {
   transform: rotate(45deg);
   box-sizing: border-box;
   display: none;
+  color: rgb(93, 181, 164);
 }
 
 .loader::before {
@@ -52,6 +53,7 @@ body {
 .cat-info {
   float: right;
   margin-top: -50px;
+  color: rgb(93, 181, 164);
 }
 
 .cat-info img {
