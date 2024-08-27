@@ -9,7 +9,7 @@ body {
   border: 10px solid #fff;
   border-radius: 50%;
   position: relative;
-  transform: rotate(45deg);
+  transform: rotate(20deg);
   box-sizing: border-box;
   display: none;
   color: rgb(93, 181, 164);
