@@ -22,7 +22,7 @@ body {
   border-radius: 50%;
   border: 10px solid rgb(160, 190, 222);
   animation: prixClipFix 2s infinite linear;
-  background-color: rgb(42, 105, 94);
+  color: rgb(93, 181, 164);
 }
 
 @keyframes prixClipFix {
