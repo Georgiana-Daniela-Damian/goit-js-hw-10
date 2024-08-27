@@ -20,7 +20,7 @@ body {
   box-sizing: border-box;
   inset: -10px;
   border-radius: 50%;
-  border: 10px solid rgb(160, 190, 222);
+  border: 10px solid rgb(93, 181, 164);
   animation: prixClipFix 2s infinite linear;
 }
 
